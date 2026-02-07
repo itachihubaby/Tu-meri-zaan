@@ -1,0 +1,307 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Only For You 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Hind',sans-serif;
+}
+body{
+  min-height:100vh;
+  background:black;
+  color:white;
+  overflow-x:hidden;
+}
+
+/* BACKGROUND */
+.background{
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(to bottom,
+      rgba(0,0,0,0.05),
+      rgba(0,0,0,0.6),
+      rgba(0,0,0,1)),
+    url("images/1.jpg") center/cover;
+  transition:background-image 1.5s ease-in-out;
+  z-index:-2;
+}
+
+/* HEARTS */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:20px;
+  animation:floatUp 6s linear infinite;
+}
+@keyframes floatUp{
+  to{transform:translateY(-110vh);opacity:0;}
+}
+
+/* CARD */
+.container{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.card{
+  width:100%;
+  max-width:420px;
+  background:rgba(0,0,0,0.55);
+  padding:30px;
+  border-radius:25px;
+  text-align:center;
+  box-shadow:0 0 40px rgba(23, 210, 236, 0.76);
+}
+
+/* TEXT */
+h1{
+  background:linear-gradient(45deg,#ff4ecd,#8A22B4,#6ae3ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  margin-bottom:20px;
+}
+
+/* INPUTS */
+input,textarea{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:none;
+  outline:none;
+  margin:12px 0;
+}
+
+/* BUTTONS */
+.buttons{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  position:relative;
+}
+button{
+  padding:10px 22px;
+  border:none;
+  border-radius:25px;
+  font-size:1rem;
+  cursor:pointer;
+  transition:.3s;
+}
+.yes{
+  background:linear-gradient(45deg,#ff4ecd,#ff7a18);
+  color:white;
+}
+.no{
+  background:#444;
+  color:white;
+}
+button:hover{transform:scale(1.1);}
+
+/* IMAGE VIEWER */
+.viewer{
+  position:relative;
+}
+.viewer img{
+  width:100%;
+  border-radius:20px;
+  box-shadow:0 0 25px rgba(255,20,147,0.7);
+  transition:all 1s ease;
+}
+
+/* EFFECTS */
+.zoom{transform:scale(1.1);}
+.rotate{transform:rotate(3deg) scale(1.05);}
+.blur{filter:blur(6px);}
+.clear{filter:blur(0);}
+.slide{transform:translateX(20px);}
+.glow{box-shadow:0 0 40px rgba(255,105,180,1);}
+
+.tapText{
+  margin-top:12px;
+  font-size:0.9rem;
+  opacity:0.8;
+}
+
+/* FINAL */
+.final{
+  font-size:1.2rem;
+  line-height:1.7;
+}
+</style>
+</head>
+
+<body>
+
+<div class="background" id="bg"></div>
+
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+  <div class="card" id="content"></div>
+</div>
+
+<script>
+const content = document.getElementById("content");
+const music = document.getElementById("music");
+const bg = document.getElementById("bg");
+
+/* BACKGROUND ROTATION */
+const bgImages = ["images/1.jpg","images/2.jpg","images/3.jpg"];
+let bgIndex = 0;
+setInterval(()=>{
+  bgIndex = (bgIndex+1)%bgImages.length;
+  bg.style.backgroundImage =
+  `linear-gradient(to bottom,rgba(0,0,0,.05),rgba(0,0,0,.6),rgba(0,0,0,1)),
+   url(${bgImages[bgIndex]})`;
+},5000);
+
+/* HEARTS */
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💖";
+  h.style.left=Math.random()*100+"vw";
+  h.style.fontSize=(16+Math.random()*20)+"px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},600);
+
+/* PASSWORD */
+function lock(){
+  content.innerHTML=`
+    <h1>Enter Secret Password</h1> <h2>🔐</h2>
+    <input type="password" id="p">
+    <button class="yes" onclick="check()">Unlock 💕</button>`;
+}
+function check(){
+  if(document.getElementById("p").value==="MERI-ZAAN"){
+    music.play();
+    q1();
+  }else alert("Wrong password 😜");
+}
+
+/* QUESTIONS */
+function q1(){
+  content.innerHTML=`
+  <h1>Hey bacha how are you?</h1><h2>🤭😋😒🙈</h2>
+  <div class="buttons">
+    <button class="yes" onclick="q2()">Thik hu</button>
+    <button class="no" onclick="sad()">Nahi thik hu</button>
+  </div>`;
+}
+function sad(){
+  content.innerHTML=`
+  <h1>Kya hua mera bacha? </h1><h2>🥺🧐🎀</h2>
+  <textarea></textarea>
+  <button class="yes" onclick="q2()">Otey 💖</button>`;
+}
+function q2(){
+  content.innerHTML=`
+  <h1>Do you love me?</h1><h2>🥺🙈🤭</h2>
+  <div class="buttons">
+    <button class="yes" onclick="q3()">Yes</button>
+    <button class="no" id="noBtn" onclick="moveButton()">No</button>
+  </div>`;
+}
+function q3(){
+  content.innerHTML=`
+  <h1>Bacha kya aap muje miss krti ho? </h1> <h2>🥺🎀😎</h2>
+  <div class="buttons">
+    <button class="yes" onclick="q4()">Yes</button>
+    <button class="no" id="noBtn" onclick="moveButton()">No</button>
+  </div>`;
+}
+function q4(){
+  content.innerHTML=`
+  <h1>Memories dekhna chahogi? </h1> <h2>😋🤭🎀</h2>
+  <div class="buttons">
+    <button class="yes" onclick="gallery()">Yes</button>
+    <button class="no" id="noBtn" onclick="moveButton()">No</button>
+  </div>
+  <p id="msg"></p>`;
+  
+  let isMoved = false;
+
+function moveButton() {
+  const noBtn = document.getElementById('noBtn');
+  if (isMoved) return; 
+  const randomX = (Math.random() - 0.5) * 300; 
+  const randomY = (Math.random() - 0.5) * 300; 
+  noBtn.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${Math.random() * 20 - 10}deg)`;
+  noBtn.innerText = "NOPE! 😜";
+  noBtn.style.backgroundColor = "#ff9f43";
+  isMoved = true; 
+  setTimeout(() => {
+    noBtn.style.transform = `translate(0, 0) rotate(0)`;
+    noBtn.innerText = "NO 😢";
+    noBtn.style.backgroundColor = ""; 
+    isMoved = false;
+  }, 2000);
+};
+}
+
+/* IMAGE SLIDESHOW WITH EFFECTS */
+const images=["images/1.jpg","images/2.jpg","images/3.jpg","images/4.jpg","images/5.jpg"];
+const effects=["zoom","rotate","blur","slide","glow"];
+let imgIndex=0;
+
+function gallery(){
+  showImage();
+}
+
+function showImage(){
+  if(imgIndex>=images.length){
+    final();
+    return;
+  }
+  const effect=effects[imgIndex % effects.length];
+  content.innerHTML=`
+    <h1>Our Memories 💖</h1>
+    <div class="viewer">
+      <img id="pic" src="${images[imgIndex]}" class="${effect}">
+    </div>
+    <div class="tapText">Tap on photo to continue 💕</div>
+  `;
+  const pic=document.getElementById("pic");
+  setTimeout(()=>pic.classList.remove("blur"),600);
+  pic.onclick=()=>{
+    imgIndex++;
+    showImage();
+  };
+}
+
+/* FINAL */
+function final(){
+  content.innerHTML=`
+    <h1 class="final">
+      I always miss you baby </h1> 🥺💖<br>
+    <h1 class="final"> Please never leave me alone 🫶
+    </h1>
+    <button class="yes" onclick="openSecret()">Secret message for you 💌</button>`;
+}
+function openSecret(){
+window.location.href="secret-msg.html";
+
+    
+}
+
+lock();
+</script>
+
+</body>
+</html>
