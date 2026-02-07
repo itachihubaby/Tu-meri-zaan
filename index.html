@@ -33,7 +33,7 @@ body{
       rgba(0,0,0,0.05),
       rgba(0,0,0,0.6),
       rgba(0,0,0,1)),
-    url("images/1.jpg") center/cover;
+    url("1.jpg") center/cover;
   transition:background-image 1.5s ease-in-out;
   z-index:-2;
 }
@@ -161,7 +161,7 @@ const music = document.getElementById("music");
 const bg = document.getElementById("bg");
 
 /* BACKGROUND ROTATION */
-const bgImages = ["images/1.jpg","images/2.jpg","images/3.jpg"];
+const bgImages = ["1.jpg","2.jpg","3.jpg","4.jpg","5.jpg"];
 let bgIndex = 0;
 setInterval(()=>{
   bgIndex = (bgIndex+1)%bgImages.length;
